@@ -1,0 +1,519 @@
+---
+title: "Final Project"
+author: "Kyle Brinker"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data Prep and Exploration
+```{r}
+options(
+  digits = 2,
+  scipen = 999,
+  warn = -1
+)
+rm(
+  list = ls()
+)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Rgraphviz")
+library(htmlwidgets)
+library(Rgraphviz)
+library(magrittr)
+library(pROC)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(DiagrammeR)
+library(devtools)
+library(ggplot2)
+library(dplyr)
+library(randomForest)
+```
+
+```{r}
+#Load Model
+df <- read.csv("D:\\Current Projects\\alzheimers_prediction_dataset.csv")
+country_to_continent <- data.frame(
+  Country = c("Spain", "Argentina", "South Africa", "China", "Sweden", "South Korea", "Germany", "UK", "Canada", "India", "Italy", "USA", "Russia", "Japan", "Australia", "France", "Norway", "Saudi Arabia", "Mexico", "Brazil"), 
+  Continent = c("Europe", "South America", "Africa", "Asia", "Europe", "Asia", "Europe", "Europe", "North America", "Asia", "Europe", "North America", "Europe", "Asia", "Australia", "Europe", "Europe", "Asia", "North America", "South America")
+)
+```
+
+```{r}
+library(ggplot2)
+M_plot <- df %>%
+  dplyr::group_by(Alzheimer.s.Diagnosis) %>%
+  dplyr::summarise(
+    Count = dplyr::n()
+  )
+ggplot(M_plot) + 
+  aes(x = Alzheimer.s.Diagnosis,y = Count,label = Count,fill = Alzheimer.s.Diagnosis) + 
+  geom_col(color = "black") + 
+  geom_text(position = position_stack(0.5)) + 
+  scale_fill_manual(
+    values = c("red","green")
+  ) + 
+  theme_bw()
+```
+
+```{r}
+df <- df %>%
+  na.omit() %>%
+  dplyr::left_join(country_to_continent, by = "Country") %>%
+  dplyr::select(-Country) %>%
+  dplyr::mutate(
+    across(where(is.character), as.factor)
+  ) %>%
+  dplyr::mutate(
+    across(where(is.factor), as.integer) # Convert factor columns to integers
+  ) %>%
+  as.data.frame()
+trainIndex <- createDataPartition(df$Alzheimer.s.Diagnosis, p = 0.8, list = FALSE)
+train_data <- df[trainIndex, ]
+test_data <- df[-trainIndex, ]
+M <- train_data %>%
+  dplyr::mutate(
+    across(
+      .cols = -Alzheimer.s.Diagnosis,
+      .fns = scale
+    )
+  ) %>%
+  as.data.frame() %>%
+  dplyr::mutate_all(as.numeric)
+M.test <- test_data %>%
+  dplyr::mutate(
+    across(
+      .cols = -Alzheimer.s.Diagnosis,
+      .fns = scale
+    )
+  ) %>%
+  as.data.frame() %>%
+  dplyr::mutate_all(as.numeric)
+```
+
+```{r}
+M$Weight <- 1
+v_sum <- tapply(
+  X = M$Weight,
+  INDEX = M$Alzheimer.s.Diagnosis,
+  FUN = sum
+)
+for(j in names(v_sum)){
+  M$Weight[M$Alzheimer.s.Diagnosis == j] <- max(v_sum)/v_sum[j]
+}
+tapply(
+  X = M$Weight,
+  INDEX = M$Alzheimer.s.Diagnosis,
+  FUN = sum
+)
+
+M.test$Weight <- 1
+v_sum <- tapply(
+  X = M.test$Weight,
+  INDEX = M.test$Alzheimer.s.Diagnosis,
+  FUN = sum
+)
+for(j in names(v_sum)){
+  M.test$Weight[M.test$Alzheimer.s.Diagnosis == j] <- max(v_sum)/v_sum[j]
+}
+tapply(
+  X = M.test$Weight,
+  INDEX = M.test$Alzheimer.s.Diagnosis,
+  FUN = sum
+)
+```
+
+```{r}
+# Model
+M %>%
+  dplyr::select(
+    Alzheimer.s.Diagnosis,Weight
+  ) %>%
+  dplyr::distinct()
+```
+
+# Variable Reduction
+
+## Stepwise
+```{r}
+Baseline <- glm(
+  formula = Alzheimer.s.Diagnosis ~      Age+Gender+Education.Level+BMI+Physical.Activity.Level+Smoking.Status+Alcohol.Consumption+Diabetes+Hypertension+Cholesterol.Level+Family.History.of.Alzheimer.s+Cognitive.Test.Score+Depression.Level+Sleep.Quality+Dietary.Habits+Air.Pollution.Exposure+Employment.Status+Marital.Status+Genetic.Risk.Factor..APOE.ε4.allele.+Social.Engagement.Level+Income.Level+Stress.Levels+Urban.vs.Rural.Living+Continent
+,
+  data = M,
+  weights = M %>%
+    dplyr::pull(
+      Weight
+    )
+)
+
+stepwise_model <- step(Baseline, 
+                       direction = "both",
+                       trace = FALSE
+)
+```
+
+## Bayesian Network
+```{r}
+#Constraint Based
+constraint.M<-bnlearn::hpc(M)
+constraint.M
+
+bnlearn::graphviz.plot(constraint.M)
+
+#Score based
+score.M<-bnlearn::h2pc(M)
+score.M
+
+bnlearn::graphviz.plot(score.M)
+
+#Hybrid Model
+hybrid.M<-bnlearn::hc(M)
+hybrid.M
+
+bnlearn::graphviz.plot(hybrid.M)
+
+#Local Discovery Model
+local.M<-bnlearn::aracne(M)
+local.M
+
+bnlearn::graphviz.plot(local.M)
+```
+
+```{r}
+#network scores
+scores <- list()
+#Gave Errors that would not compute the score, so this is not an acceptable model
+#scores[["constraint"]] <- bnlearn::score(
+  #x = constraint.M,
+  #data = M,
+  #type = "aic-g"
+#)
+
+scores[["score"]] <- bnlearn::score(
+  x = score.M,
+  data = M,
+  type = "aic-g"
+)
+
+scores[["hybrid"]] <- bnlearn::score(
+  x = hybrid.M,
+  data = M,
+  type = "aic-g"
+)
+
+#Gave Errors that would not compute the score, so this is not an acceptable model
+#scores[["discovery"]] <- bnlearn::score(
+  #x = local.M,
+  #data = M,
+  #type = "aic-g"
+#)
+
+t <- scores %>%
+  as.data.frame()
+t
+```
+
+```{r}
+#Simpler Model
+score.M
+```
+# Models
+```{r}
+Baseline <- glm(
+  formula = Alzheimer.s.Diagnosis ~      Age+Gender+Education.Level+BMI+Physical.Activity.Level+Smoking.Status+Alcohol.Consumption+Diabetes+Hypertension+Cholesterol.Level+Family.History.of.Alzheimer.s+Cognitive.Test.Score+Depression.Level+Sleep.Quality+Dietary.Habits+Air.Pollution.Exposure+Employment.Status+Marital.Status+Genetic.Risk.Factor..APOE.ε4.allele.+Social.Engagement.Level+Income.Level+Stress.Levels+Urban.vs.Rural.Living+Continent
+,
+  data = M,
+  weights = M %>%
+    dplyr::pull(
+      Weight
+    )
+)
+
+stepwise_model <- glm(
+  formula = Alzheimer.s.Diagnosis ~ Age + Cholesterol.Level + Family.History.of.Alzheimer.s + 
+    Genetic.Risk.Factor..APOE.ε4.allele. + Stress.Levels + Urban.vs.Rural.Living,
+  data = M,
+    weights = M %>%
+    dplyr::pull(
+      Weight
+    )
+)
+
+Bayesian_Network <- glm(
+  formula = Alzheimer.s.Diagnosis~Age+Family.History.of.Alzheimer.s+Genetic.Risk.Factor..APOE.ε4.allele.,
+  data = M,
+    weights = M %>%
+    dplyr::pull(
+      Weight
+    )
+)
+
+Tree.Baseline <- rpart(Alzheimer.s.Diagnosis ~      Age+Gender+Education.Level+BMI+Physical.Activity.Level+Smoking.Status+Alcohol.Consumption+Diabetes+Hypertension+Cholesterol.Level+Family.History.of.Alzheimer.s+Cognitive.Test.Score+Depression.Level+Sleep.Quality+Dietary.Habits+Air.Pollution.Exposure+Employment.Status+Marital.Status+Genetic.Risk.Factor..APOE.ε4.allele.+Social.Engagement.Level+Income.Level+Stress.Levels+Urban.vs.Rural.Living+Continent , 
+                    data = M, 
+                    method = "class",  # For classification,
+                    weights = M %>%
+                              dplyr::pull(
+                                  Weight
+                              ),
+                    control = rpart.control(minsplit = 10, cp = 0.01)
+)
+optimal_cp <- Tree.Baseline$cptable[which.min(Tree.Baseline$cptable[, "xerror"]), "CP"]
+Tree.Baseline <- prune(Tree.Baseline, cp = optimal_cp)
+rpart.plot(Tree.Baseline, main = "Decision Tree for Baseline")
+
+Tree.Reduced <- rpart(Alzheimer.s.Diagnosis ~ Age + Cholesterol.Level + Family.History.of.Alzheimer.s +  Genetic.Risk.Factor..APOE.ε4.allele. + Stress.Levels + Urban.vs.Rural.Living, 
+                    data = M, 
+                    method = "class",
+                    weights = M %>%
+                              dplyr::pull(
+                                  Weight
+                              ),
+                    control = rpart.control(minsplit = 10, cp = 0.01)
+)
+optimal_cp <- Tree.Reduced$cptable[which.min(Tree.Reduced$cptable[, "xerror"]), "CP"]
+Tree.Reduced <- prune(Tree.Reduced, cp = optimal_cp)
+rpart.plot(Tree.Reduced, main = "Decision Tree for Reduced")
+                                 
+Tree.Bayesian_Network <- rpart(Alzheimer.s.Diagnosis ~ Age+Family.History.of.Alzheimer.s+Genetic.Risk.Factor..APOE.ε4.allele., 
+                    data = M, 
+                    method = "class",  # For classification,
+                    weights = M %>%
+                              dplyr::pull(
+                                  Weight
+                              ),
+                    control = rpart.control(minsplit = 10, cp = 0.01)
+)
+optimal_cp <- Tree.Bayesian_Network$cptable[which.min(Tree.Bayesian_Network$cptable[, "xerror"]), "CP"]
+Tree.Bayesian_Network <- prune(Tree.Bayesian_Network, cp = optimal_cp)
+rpart.plot(Tree.Bayesian_Network, main = "Decision Tree for Bayesian Network")
+```
+
+
+```{r}
+list_nnet <- list()
+list_nnet <- lapply(
+  X = 1,
+  FUN = function(size) nnet::nnet(
+    formula = Alzheimer.s.Diagnosis ~      Age+Gender+Education.Level+BMI+Physical.Activity.Level+Smoking.Status+Alcohol.Consumption+Diabetes+Hypertension+Cholesterol.Level+Family.History.of.Alzheimer.s+Cognitive.Test.Score+Depression.Level+Sleep.Quality+Dietary.Habits+Air.Pollution.Exposure+Employment.Status+Marital.Status+Genetic.Risk.Factor..APOE.ε4.allele.+Social.Engagement.Level+Income.Level+Stress.Levels+Urban.vs.Rural.Living+Continent,
+    data = M,
+    size = 4,
+    maxit = 1e5,
+    linout = FALSE,
+    trace = FALSE,
+    Hess = FALSE,
+    MaxNWts = 1e5,
+    weights = M %>%
+              dplyr::pull(
+                      Weight
+                          )
+  )
+)
+```
+
+```{r}
+devtools::source_url(
+  url = 'https://gist.github.com/fawda123/7471137/raw/cd6e6a0b0bdb4e065c597e52165e5ac887f5fe95/nnet_plot_update.r'
+)
+sapply(
+  X = list_nnet,
+  FUN = plot.nnet
+)
+```
+
+```{r}
+list_nnet.2 <- list()
+list_nnet.2 <- lapply(
+  X = 1,
+  FUN = function(size) nnet::nnet(
+    formula = Alzheimer.s.Diagnosis ~ Age + Cholesterol.Level + Family.History.of.Alzheimer.s + 
+    Genetic.Risk.Factor..APOE.ε4.allele. + Stress.Levels + Urban.vs.Rural.Living,
+    data = M,
+    size = 4,
+    maxit = 1e5,
+    linout = FALSE,
+    trace = FALSE,
+    Hess = FALSE,
+    MaxNWts = 1e5,
+    weights = M %>%
+              dplyr::pull(
+                      Weight
+                          )
+  )
+)
+```
+
+```{r}
+devtools::source_url(
+  url = 'https://gist.github.com/fawda123/7471137/raw/cd6e6a0b0bdb4e065c597e52165e5ac887f5fe95/nnet_plot_update.r'
+)
+sapply(
+  X = list_nnet.2,
+  FUN = plot.nnet
+)
+```
+
+```{r}
+list_nnet.3 <- list()
+list_nnet.3 <- lapply(
+  X = 1,
+  FUN = function(size) nnet::nnet(
+    formula = Alzheimer.s.Diagnosis~Age+Family.History.of.Alzheimer.s+Genetic.Risk.Factor..APOE.ε4.allele.,
+    data = M,
+    size = 4,
+    maxit = 1e5,
+    linout = FALSE,
+    trace = FALSE,
+    Hess = FALSE,
+    MaxNWts = 1e5,
+    weights = M %>%
+              dplyr::pull(
+                      Weight
+                          )
+  )
+)
+```
+
+```{r}
+devtools::source_url(
+  url = 'https://gist.github.com/fawda123/7471137/raw/cd6e6a0b0bdb4e065c597e52165e5ac887f5fe95/nnet_plot_update.r'
+)
+sapply(
+  X = list_nnet.3,
+  FUN = plot.nnet
+)
+```
+
+```{r}
+M$Alzheimer.s.Diagnosis <- as.factor(M$Alzheimer.s.Diagnosis)
+baseline.rf <- randomForest(Alzheimer.s.Diagnosis ~ .,  
+                        data = M,  
+                        type = 'Classification',
+                        weights = M %>%
+                                  dplyr::pull(
+                                    Weight
+                                    )
+) 
+Reduced.rf <- randomForest(Alzheimer.s.Diagnosis ~ Age + Cholesterol.Level + Family.History.of.Alzheimer.s + 
+    Genetic.Risk.Factor..APOE.ε4.allele. + Stress.Levels + Urban.vs.Rural.Living,  
+                        data = M,  
+                        type = 'Classification',
+                        weights = M %>%
+                                  dplyr::pull(
+                                    Weight
+                                    )
+) 
+Bayesian_Network.rf <- randomForest(Alzheimer.s.Diagnosis~Age+Family.History.of.Alzheimer.s+Genetic.Risk.Factor..APOE.ε4.allele.,  
+                        data = M,  
+                        type = 'Classification',
+                        weights = M %>%
+                                  dplyr::pull(
+                                    Weight
+                                    )
+) 
+```
+
+```{r}
+M$base.predicted <- predict(Baseline, newdata = M, type = "response")
+M.test$base.predicted <- predict(Baseline, newdata = M.test, type = "response")
+M$reduced.predicted <- predict(stepwise_model, newdata = M, type = "response")
+M.test$reduced.predicted <- predict(stepwise_model, newdata = M.test, type = "response")
+M$bn.predicted <- predict(Bayesian_Network, newdata = M, type = "response")
+M.test$bn.predicted <- predict(Bayesian_Network, newdata = M.test, type = "response")
+M$decision_base.predicted <- predict(Tree.Baseline, newdata = M, type = "class")
+M.test$decision_base.predicted <- predict(Tree.Baseline, newdata = M.test, type = "class")
+M$decision_reduced.predicted <- predict(Tree.Reduced, newdata = M, type = "class")
+M.test$decision_reduced.predicted <- predict(Tree.Reduced, newdata = M.test, type = "class")
+M$decision_bn.predicted <- predict(Tree.Bayesian_Network, newdata = M, type = "class")
+M.test$decision_bn.predicted <- predict(Tree.Bayesian_Network, newdata = M.test, type = "class")
+M$rf_base.predicted <- predict(baseline.rf, newdata = M, type = "response")
+M.test$rf_base.predicted <- predict(baseline.rf, newdata = M.test, type = "response")
+M$rf_reduced.predicted <- predict(Reduced.rf, newdata = M, type = "response")
+M.test$rf_reduced.predicted <- predict(Reduced.rf, newdata = M.test, type = "response")
+M$rf_bn.predicted <- predict(Bayesian_Network.rf, newdata = M, type = "response")
+M.test$rf_bn.predicted <- predict(Bayesian_Network.rf, newdata = M.test, type = "response")
+```
+
+```{r}
+roc_list.train <- list(
+  "Baseline" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$base.predicted)),
+  "Reduced" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$reduced.predicted)),
+  "Bayesian Network" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$bn.predicted)),
+  "DT Baseline" = roc(M$Alzheimer.s.Diagnosis, as.numeric(as.factor(M$decision_base.predicted)) - 1),
+  "DT Reduced" = roc(M$Alzheimer.s.Diagnosis, as.numeric(as.factor(M$decision_reduced.predicted)) - 1),
+  "DT Bayesian" = roc(M$Alzheimer.s.Diagnosis, as.numeric(as.factor(M$decision_bn.predicted)) - 1),
+  "RF Baseline" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$rf_base.predicted)),
+  "RF Reduced" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$rf_reduced.predicted)),
+  "RF Bayesian" = roc(M$Alzheimer.s.Diagnosis, as.numeric(M$rf_bn.predicted))
+)
+roc_data <- do.call(rbind, lapply(names(roc_list.train), function(model) {
+  data.frame(
+    Specificity = roc_list.train[[model]]$specificities,
+    Sensitivity = roc_list.train[[model]]$sensitivities,
+    Model = model
+  )
+}))
+auc_labels <- sapply(names(roc_list.train), function(model) {
+  sprintf("%s (AUC = %.3f)", model, auc(roc_list.train[[model]]))
+})
+ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity, color = Model)) +
+  geom_line() +
+  scale_color_viridis_d(labels = auc_labels) +
+  labs(title = "ROC Curves for Train Data", x = "1 - Specificity", y = "Sensitivity") +
+    annotate("text", 
+           x = 1, 
+           y = 0, 
+           label = "Data Source: Kaggle - alzheimers-prediction-dataset-global", 
+           hjust = 1, 
+           vjust = 0, 
+           size = 3.5)+
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 3))
+```
+
+```{r}
+roc_list.test <- list(
+  "Baseline" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$base.predicted)),
+  "Reduced" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$reduced.predicted)),
+  "Bayesian Network" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$bn.predicted)),
+  "DT Baseline" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(as.factor(M.test$decision_base.predicted)) - 1),
+  "DT Reduced" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(as.factor(M.test$decision_reduced.predicted)) - 1),
+  "DT Bayesian" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(as.factor(M.test$decision_bn.predicted)) - 1),
+  "RF Baseline" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$rf_base.predicted)),
+  "RF Reduced" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$rf_reduced.predicted)),
+  "RF Bayesian" = roc(M.test$Alzheimer.s.Diagnosis, as.numeric(M.test$rf_bn.predicted))
+)
+
+roc_data <- do.call(rbind, lapply(names(roc_list.test), function(model) {
+  data.frame(
+    Specificity = roc_list.test[[model]]$specificities,
+    Sensitivity = roc_list.test[[model]]$sensitivities,
+    Model = model
+  )
+}))
+
+auc_labels <- sapply(names(roc_list.test), function(model) {
+  sprintf("%s (AUC = %.3f)", model, auc(roc_list.test[[model]]))
+})
+
+ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity, color = Model)) +
+  geom_line() +
+  scale_color_viridis_d(labels = auc_labels) +
+  labs(title = "ROC Curves for Test Data", 
+       x = "1 - Specificity", 
+       y = "Sensitivity") +
+  annotate("text", 
+           x = 1, 
+           y = 0, 
+           label = "Data Source: Kaggle - alzheimers-prediction-dataset-global", 
+           hjust = 1, 
+           vjust = 0, 
+           size = 3.5) +
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(nrow = 3))
+```
