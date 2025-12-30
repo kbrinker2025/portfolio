@@ -1,4 +1,4 @@
-# Kyle Brinker - Data Scientist
+Data Scientist
 
 
 ### Education
