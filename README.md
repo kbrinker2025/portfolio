@@ -20,7 +20,7 @@
 
 **Identifying Alzhiemers Predictors**
 
-[Identifying Alzhiemers Predictors Executive Summary]()
+[Identifying Alzhiemers Predictors Executive Summary](https://github.com/kbrinker2025/portfolio/blob/fa9c50a4098b9fd72a6214a40e30bf073917bf97/Alzhiemers%20Predictors/Brinker%2C%20Kyle%20Executive%20Summary.pdf)
 
 [Identifying Alzhiemers Predictors Presentation]()
 
