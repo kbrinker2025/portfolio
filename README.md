@@ -1,7 +1,5 @@
 # Data Scientist
 
-
-
 ### Education
 
 - **University of Central Florida**  
