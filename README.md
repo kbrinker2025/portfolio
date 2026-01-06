@@ -22,6 +22,6 @@
 
 [Identifying Alzhiemers Predictors Executive Summary](https://github.com/kbrinker2025/portfolio/blob/fa9c50a4098b9fd72a6214a40e30bf073917bf97/Alzhiemers%20Predictors/Brinker%2C%20Kyle%20Executive%20Summary.pdf)
 
-[Identifying Alzhiemers Predictors Presentation]()
+[Identifying Alzhiemers Predictors Presentation](https://github.com/kbrinker2025/portfolio/blob/54752f7b1443dbe6513acbd7ec162903ae765508/Alzhiemers%20Predictors/Identifying%20Alzheimer's%20Risk%20Factors%20and%20Prediction.pdf)
 
-[Identifying Alzhiemers Predictors R Code]()
+[Identifying Alzhiemers Predictors R Code](https://github.com/kbrinker2025/portfolio/blob/bd0754ef97a05d7e553ef083a200635d4fb4fac4/Alzhiemers%20Predictors/Final-Project.html)
