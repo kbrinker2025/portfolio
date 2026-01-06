@@ -25,9 +25,3 @@
 [Identifying Alzhiemers Predictors Presentation]()
 
 [Identifying Alzhiemers Predictors R Code]()
-
-**Home Mortgage Consumer Trends**
-
-[Home Mortgage Consumer Trends Presentation]()
-
-[Home Mortgage Consumer Trends R Code]()
