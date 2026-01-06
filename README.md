@@ -15,10 +15,10 @@ Statistics & Data Science - Data Science Track, M.S.
 
 **Identifying Alzhiemers Predictors**
 
-[Video Game Market Data Analysis Executive Summary]()
+[Identifying Alzhiemers Predictors Executive Summary]()
 
 [Identifying Alzhiemers Predictors Presentation]()
 
-[Video Game Market Data Analysis R Code]()
+[Identifying Alzhiemers Predictors R Code]()
 
 **Home Mortgage Consumer Trends**
