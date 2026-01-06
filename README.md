@@ -1,8 +1,15 @@
 # Data Scientist
 
 
+
 ### Education
-Statistics & Data Science - Data Science Track, M.S.
+
+- **University of Central Florida**  
+  *M.S. in Statistics & Data Science – Data Science Track*
+
+- **Emporia State University**  
+  *B.S.E. in Mathematics*
+
 
 
 ### Projects
