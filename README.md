@@ -1,50 +1,44 @@
-# Data Scientist
+# Kyle Brinker – Data Scientist
 
-### Professional Summary
+Detail-oriented **Data Scientist** with an **M.S. in Statistics and Data Science** from the University of Central Florida. Proficient in **Python, SQL, R, and SAS** for statistical modeling, machine learning, predictive analytics, and data visualization. Proven ability to deliver actionable insights from complex datasets, including a **2nd-place finish** in the Addition Financial Data Science Competition. Passionate about driving business performance through data-driven recommendations.
 
-Detail-oriented data scientist with an M.S. in Statistics and Data Science and expertise in Python, SQL, R, and SAS for 
-statistical modeling, predictive analytics, and data visualization. Applied regression, correlation, and machine learning 
-techniques to derive actionable insights, including a 2nd-place win in the Addition Financial Data Science Competition. 
-Passionate about transforming complex datasets into strategic recommendations for performance optimization. 
+### Skills
+- **Languages & Tools**: Python, SQL, R, SAS
+- **Techniques**: Statistical modeling, machine learning (regression, decision trees, random forests, neural networks, Bayesian networks), predictive analytics, data cleaning, visualization
+- **Domains**: Market & business analytics, healthcare risk assessment, advanced research methods (tensor analysis, low-rank decomposition)
 
 ### Education
+- **M.S. in Statistics & Data Science** (Data Science Track)  
+  University of Central Florida
+- **B.S.E. in Mathematics**  
+  Emporia State University
 
-- **University of Central Florida**  
-  *M.S. in Statistics & Data Science – Data Science Track*
+### Selected Projects
 
-- **Emporia State University**  
-  *B.S.E. in Mathematics*
+#### Business & Market Analytics
+**Video Game Market Trends Analysis**  
+Analyzed global video game sales data to guide product launch strategy. Used **SQL** for data querying/cleaning and market analysis to evaluate revenue trends, genre profitability, regional performance, and correlations between ratings and sales.  
+**Key Insight**: Action genre drove the highest global revenue (especially in North America and Europe).  
+**Recommendation**: Prioritize an action-based game targeting North America for maximum profitability.  
 
+- [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
+- [SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
 
+#### Healthcare & Risk Analytics
+**Identifying Alzheimer's Disease Predictors**  
+Built and compared predictive models on public healthcare datasets to identify key risk factors for Alzheimer's, emphasizing accuracy and operational simplicity. Evaluated **logistic regression, decision trees, neural networks, random forests, and Bayesian networks**.  
+**Top Performer**: Bayesian Network-based GLM using just **three variables** (age, family history, APOE genotype) for strong predictive power.  
+**Impact**: Enables scalable, low-burden early risk screening programs.  
 
-### Projects
+- [Executive Summary (PDF)](https://github.com/kbrinker2025/portfolio/blob/fa9c50a4098b9fd72a6214a40e30bf073917bf97/Alzhiemers%20Predictors/Brinker%2C%20Kyle%20Executive%20Summary.pdf)
+- [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/54752f7b1443dbe6513acbd7ec162903ae765508/Alzhiemers%20Predictors/Identifying%20Alzheimer's%20Risk%20Factors%20and%20Prediction.pdf)
+- [R Code (Rmd)](https://github.com/kbrinker2025/portfolio/blob/29adead11ba5b30d839fa14654ee6b797e7509b2/Alzhiemers%20Predictors/Final%20Project.Rmd)
 
-## Business & Market Analytics
+#### Research & Advanced Methods
+**Robust Low-Rank Tensor Discriminant Analysis** (Graduate Research)  
+Developed a novel classification framework for high-dimensional tensor data (e.g., medical imaging). Extended optimal scoring discriminant analysis with **low-rank Tucker decomposition, elastic-net regularization, and robust loss functions** to improve noise resistance and computational efficiency.  
+Validated on synthetic data and large-scale MRI datasets (OASIS, ADNI).  
+**Results**: Enhanced stability, interpretability, and performance in disease classification tasks compared to traditional methods.  
 
-- Video Game Market Trends (SQL, market analysis, recommendations)
+- [Full Paper (UCF STARS Repository)](https://stars.library.ucf.edu/etd2024/429/)
 
-Analyzed global video game sales, genres, and user/critic ratings using SQL and data cleaning techniques to identify the most profitable genre for a new product launch using publicly available datasets. Evaluated revenue trends across regions and correlations between genre, sales, and ratings. Findings showed that Action games consistently generated the highest global revenue, particularly in North America and Europe, leading to a data-driven recommendation for an action-based game launch with a primary market focus on North America.
-
-[Video Game Market Data Analysis Presentation](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
-
-[Video Game Market Data Analysis SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
-
-## Healthcare & Risk Analytics
-
-- Identifying Alzheimer’s Predictors (Statistical modeling, interpretability)
-
-Developed and evaluated predictive models to identify key risk factors for Alzheimer’s disease and support efficient, data-driven risk assessment using openly available datasets. Compared multiple modeling approaches, including logistic regression, decision trees, neural networks, random forest, and Bayesian networks, with a focus on balancing accuracy and operational simplicity. Identified a Bayesian Network–based GLM as the optimal solution, achieving strong predictive performance while relying on only three core variables (age, family history, and APOE genotype). This model enables efficient early risk stratification using only three variables, reducing data collection burden and supporting scalable screening programs
-
-[Identifying Alzhiemers Predictors Executive Summary](https://github.com/kbrinker2025/portfolio/blob/fa9c50a4098b9fd72a6214a40e30bf073917bf97/Alzhiemers%20Predictors/Brinker%2C%20Kyle%20Executive%20Summary.pdf)
-
-[Identifying Alzhiemers Predictors Presentation](https://github.com/kbrinker2025/portfolio/blob/54752f7b1443dbe6513acbd7ec162903ae765508/Alzhiemers%20Predictors/Identifying%20Alzheimer's%20Risk%20Factors%20and%20Prediction.pdf)
-
-[Identifying Alzhiemers Predictors R Code](https://github.com/kbrinker2025/portfolio/blob/29adead11ba5b30d839fa14654ee6b797e7509b2/Alzhiemers%20Predictors/Final%20Project.Rmd)
-
-## Research & Advanced Methods
-
-- Robust Low-Rank Tensor Discriminant Analysis (Research project)
-
-Designed and implemented a novel classification framework for high-dimensional tensor data to improve decision-making in data-intensive environments such as medical imaging. Extended optimal scoring discriminant analysis by integrating low-rank Tucker decomposition, elastic-net regularization, and robust loss functions to reduce noise sensitivity and computational complexity. Validated the approach on synthetic image data and large-scale MRI datasets (OASIS, ADNI), demonstrating improved model stability, interpretability, and performance in binary disease-classification tasks. This work provides a scalable methodology for extracting actionable signals from complex, high-dimensional data where traditional models struggle.
-
-[Robust Low-Rank Tensor Discriminant Analysis With Optimal Scoring Paper](https://stars.library.ucf.edu/etd2024/429/)
