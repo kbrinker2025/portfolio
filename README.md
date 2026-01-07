@@ -16,10 +16,13 @@ Detail-oriented **Data Scientist** with an **M.S. in Statistics and Data Science
 ### Selected Projects
 
 #### Business & Market Analytics
-**Video Game Market Trends Analysis**  
-Analyzed global video game sales data to guide product launch strategy. Used **SQL** for data querying/cleaning and market analysis to evaluate revenue trends, genre profitability, regional performance, and correlations between ratings and sales.  
+**Video Game Market Trends Analysis** (Collaborative Capstone Project)  
+Collaborated with a teammate on global video game sales data analysis to inform product launch strategy. Led **SQL** querying, data cleaning, and exploratory analysis to evaluate revenue trends, genre profitability, regional performance, and correlations between ratings and sales.  
 **Key Insight**: Action genre drove the highest global revenue (especially in North America and Europe).  
 **Recommendation**: Prioritize an action-based game targeting North America for maximum profitability.  
+
+- [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
+- [SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
 
 - [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
 - [SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
