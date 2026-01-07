@@ -29,6 +29,8 @@ Analyzed global video game sales, genres, and user/critic ratings using SQL and 
 
 **Identifying Alzhiemers Predictors**
 
+Developed and evaluated predictive models to identify key risk factors for Alzheimer’s disease and support efficient, data-driven risk assessment using openly available datasets. Compared multiple modeling approaches, including logistic regression, decision trees, neural networks, random forest, and Bayesian networks, with a focus on balancing accuracy and operational simplicity. Identified a Bayesian Network–based GLM as the optimal solution, achieving strong predictive performance while relying on only three core variables (age, family history, and APOE genotype). Delivered a streamlined, interpretable model suitable for scalable clinical or population-level risk screening.
+
 [Identifying Alzhiemers Predictors Executive Summary](https://github.com/kbrinker2025/portfolio/blob/fa9c50a4098b9fd72a6214a40e30bf073917bf97/Alzhiemers%20Predictors/Brinker%2C%20Kyle%20Executive%20Summary.pdf)
 
 [Identifying Alzhiemers Predictors Presentation](https://github.com/kbrinker2025/portfolio/blob/54752f7b1443dbe6513acbd7ec162903ae765508/Alzhiemers%20Predictors/Identifying%20Alzheimer's%20Risk%20Factors%20and%20Prediction.pdf)
