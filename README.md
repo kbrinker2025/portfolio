@@ -19,7 +19,9 @@ Passionate about transforming complex datasets into strategic recommendations fo
 
 ### Projects
 
-**Video Game Market Trends**
+## Business & Market Analytics
+
+- Video Game Market Trends (SQL, market analysis, recommendations)
 
 Analyzed global video game sales, genres, and user/critic ratings using SQL and data cleaning techniques to identify the most profitable genre for a new product launch using publicly available datasets. Evaluated revenue trends across regions and correlations between genre, sales, and ratings. Findings showed that Action games consistently generated the highest global revenue, particularly in North America and Europe, leading to a data-driven recommendation for an action-based game launch with a primary market focus on North America.
 
@@ -27,7 +29,9 @@ Analyzed global video game sales, genres, and user/critic ratings using SQL and 
 
 [Video Game Market Data Analysis SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
 
-**Identifying Alzhiemers Predictors**
+## Healthcare & Risk Analytics
+
+- Identifying Alzheimer’s Predictors (Statistical modeling, interpretability)
 
 Developed and evaluated predictive models to identify key risk factors for Alzheimer’s disease and support efficient, data-driven risk assessment using openly available datasets. Compared multiple modeling approaches, including logistic regression, decision trees, neural networks, random forest, and Bayesian networks, with a focus on balancing accuracy and operational simplicity. Identified a Bayesian Network–based GLM as the optimal solution, achieving strong predictive performance while relying on only three core variables (age, family history, and APOE genotype). This model enables efficient early risk stratification using only three variables, reducing data collection burden and supporting scalable screening programs
 
@@ -37,7 +41,9 @@ Developed and evaluated predictive models to identify key risk factors for Alzhe
 
 [Identifying Alzhiemers Predictors R Code](https://github.com/kbrinker2025/portfolio/blob/29adead11ba5b30d839fa14654ee6b797e7509b2/Alzhiemers%20Predictors/Final%20Project.Rmd)
 
-**Robust Low-Rank Tensor Discriminant Analysis With Optimal Scoring**
+## Research & Advanced Methods
+
+- Robust Low-Rank Tensor Discriminant Analysis (Research project)
 
 Designed and implemented a novel classification framework for high-dimensional tensor data to improve decision-making in data-intensive environments such as medical imaging. Extended optimal scoring discriminant analysis by integrating low-rank Tucker decomposition, elastic-net regularization, and robust loss functions to reduce noise sensitivity and computational complexity. Validated the approach on synthetic image data and large-scale MRI datasets (OASIS, ADNI), demonstrating improved model stability, interpretability, and performance in binary disease-classification tasks. This work provides a scalable methodology for extracting actionable signals from complex, high-dimensional data where traditional models struggle.
 
