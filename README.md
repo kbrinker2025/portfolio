@@ -36,3 +36,9 @@ Developed and evaluated predictive models to identify key risk factors for Alzhe
 [Identifying Alzhiemers Predictors Presentation](https://github.com/kbrinker2025/portfolio/blob/54752f7b1443dbe6513acbd7ec162903ae765508/Alzhiemers%20Predictors/Identifying%20Alzheimer's%20Risk%20Factors%20and%20Prediction.pdf)
 
 [Identifying Alzhiemers Predictors R Code](https://github.com/kbrinker2025/portfolio/blob/29adead11ba5b30d839fa14654ee6b797e7509b2/Alzhiemers%20Predictors/Final%20Project.Rmd)
+
+**Robust Low-Rank Tensor Discriminant Analysis With Optimal Scoring**
+
+Designed and implemented a novel classification framework for high-dimensional tensor data to improve decision-making in data-intensive environments such as medical imaging. Extended optimal scoring discriminant analysis by integrating low-rank Tucker decomposition, elastic-net regularization, and robust loss functions to reduce noise sensitivity and computational complexity. Validated the approach on synthetic image data and large-scale MRI datasets (OASIS, ADNI), demonstrating improved model stability, interpretability, and performance in binary disease-classification tasks. This work provides a scalable methodology for extracting actionable signals from complex, high-dimensional data where traditional models struggle.
+
+[Robust Low-Rank Tensor Discriminant Analysis With Optimal Scoring Paper](https://stars.library.ucf.edu/etd2024/429/)
