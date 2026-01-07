@@ -1,5 +1,12 @@
 # Data Scientist
 
+### Professional Summary
+
+Detail-oriented data scientist with an M.S. in Statistics and Data Science and expertise in Python, SQL, R, and SAS for 
+statistical modeling, predictive analytics, and data visualization. Applied regression, correlation, and machine learning 
+techniques to derive actionable insights, including a 2nd-place win in the Addition Financial Data Science Competition. 
+Passionate about transforming complex datasets into strategic recommendations for performance optimization. 
+
 ### Education
 
 - **University of Central Florida**  
