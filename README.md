@@ -21,6 +21,8 @@ Passionate about transforming complex datasets into strategic recommendations fo
 
 **Video Game Market Trends**
 
+Analyzed global video game sales, genres, and user/critic ratings using SQL and data cleaning techniques to identify the most profitable genre for a new product launch using publicly available datasets. Evaluated revenue trends across regions and correlations between genre, sales, and ratings. Findings showed that Action games consistently generated the highest global revenue, particularly in North America and Europe, leading to a data-driven recommendation for an action-based game launch with a primary market focus on North America.
+
 [Video Game Market Data Analysis Presentation](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
 
 [Video Game Market Data Analysis SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
