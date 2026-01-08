@@ -24,9 +24,6 @@ Collaborated with a teammate on global video game sales data analysis to inform 
 - [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
 - [SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
 
-- [Presentation (PDF)](https://github.com/kbrinker2025/portfolio/blob/8b6ae27f1aa484bde596398fb18fabc4132ca0d6/BrainStation%20Final%20Project/Final%20Project.pdf)
-- [SQL Code](https://github.com/kbrinker2025/portfolio/blob/21cb116a80ad7c9b2bd11681b774502c58ec3565/BrainStation%20Final%20Project/Brainstation%20Final%20Project(SQL).sql)
-
 #### Healthcare & Risk Analytics
 **Identifying Alzheimer's Disease Predictors**  
 Built and compared predictive models on public healthcare datasets to identify key risk factors for Alzheimer's, emphasizing accuracy and operational simplicity. Evaluated **logistic regression, decision trees, neural networks, random forests, and Bayesian networks**.  
